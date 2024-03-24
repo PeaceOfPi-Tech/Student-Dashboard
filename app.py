@@ -1,9 +1,14 @@
 import streamlit as st 
 from menu import menu
+from Models.Names import Names
+from Services.Auth.Google import googleAuth
 
 def app():
+    get_sheets_service, get_drive_service = googleAuth()
+    sheets_service = get_sheets_service()
     st.title("App")
-   # Initialize st.session_state.role to None
+    student_names = Names()
+    # Initialize st.session_state.role to None
     if "role" not in st.session_state:
         st.session_state.role = None
 
@@ -14,7 +19,6 @@ def app():
         # Callback function to save the role selection to Session State
         st.session_state.role = st.session_state._role
 
-
     # Selectbox to choose role
     st.selectbox(
         "Select your role:",
@@ -22,6 +26,19 @@ def app():
         key="_role",
         on_change=set_role,
     )
+    spreadsheetID = "1DNRf8wULVtEXTE8ij3X4F8U_-Nea9cRKzBW16ndV4sM"
+    student_name = st.selectbox(
+        "Name:",
+        student_names.names,
+        key = '_name',
+    )
+    if student_name:
+        sheets_service.spreadsheets().values().update( 
+            spreadsheetId=spreadsheetID, 
+            range="Overview!B1", 
+            valueInputOption="USER_ENTERED", 
+            body={"values": [[student_name]]}
+        ).execute()
     menu() # Render the dynamic menu! 
     
     
