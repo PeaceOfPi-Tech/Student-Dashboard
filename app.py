@@ -32,6 +32,8 @@ def app():
         student_names.names,
         key = '_name',
     )
+
+    #Update student name in base spreadsheet
     if student_name:
         sheets_service.spreadsheets().values().update( 
             spreadsheetId=spreadsheetID, 
