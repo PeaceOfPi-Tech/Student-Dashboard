@@ -4,6 +4,7 @@ from Models.Names import Names
 from Services.Auth.Google import googleAuth
 
 def app():
+    st.set_page_config(layout="wide")
     get_sheets_service, get_drive_service = googleAuth()
     sheets_service = get_sheets_service()
     st.title("App")

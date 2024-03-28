@@ -6,7 +6,6 @@ from Services.Auth.Google import googleAuth
 from menu import menu
 
 def dashboard():
-    st.set_page_config(layout="wide")
     get_sheets_service, get_drive_service = googleAuth()
     sheets_service = get_sheets_service()
     spreadSheet_Id = "1DNRf8wULVtEXTE8ij3X4F8U_-Nea9cRKzBW16ndV4sM"
@@ -16,7 +15,6 @@ def dashboard():
         spreadsheetId=spreadSheet_Id, 
         range=range_name).execute()
     values = result.get('values', [])
-    print(values)
 
     filtered_data = [row for row in values if len(row) == 4]
     print(filtered_data)
